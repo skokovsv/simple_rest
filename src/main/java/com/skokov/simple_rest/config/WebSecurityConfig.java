@@ -18,13 +18,17 @@ import java.time.LocalDateTime;
 @EnableOAuth2Sso
 public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.authorizeRequests()
-                .mvcMatchers("/").permitAll()
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .antMatcher( "/**" )
+                .authorizeRequests()
+                .mvcMatchers( "/", "/login**", "/js/**", "/error**").permitAll()
                 .anyRequest().authenticated()
+                .and().logout().logoutSuccessUrl("/").permitAll()
                 .and()
                 .csrf().disable();
     }
+
     @Bean
     public PrincipalExtractor principalExtractor(UserDetailRepo userDetailRepo){
         return map -> {
