@@ -4,6 +4,7 @@ package com.skokov.simple_rest.controller;
 import com.skokov.simple_rest.domain.User;
 import com.skokov.simple_rest.repo.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import java.util.HashMap;
 @RequestMapping("/")
 public class MainController {
     private final MessageRepo messageRepo;
+    @Value("${spring.profiles.active}")
+    private String prifile;
 
     @Autowired
     public MainController(MessageRepo messageRepo){
@@ -28,6 +31,7 @@ public class MainController {
         data.put("profile",user);
         data.put("messages",messageRepo.findAll());
         model.addAttribute("frontendData",data);
+        model.addAttribute("isDevMode","dev".equals(prifile));
         return "index";
     }
 }

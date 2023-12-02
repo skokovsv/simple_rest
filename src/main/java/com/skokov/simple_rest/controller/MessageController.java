@@ -49,10 +49,10 @@ public class MessageController {
 
     @PutMapping("{id}")
     public Message update(
-            @PathVariable Message messageFromDb,
+            @PathVariable Message id,
             @RequestBody Message message){
-            BeanUtils.copyProperties(message,messageFromDb,"id");
-            return messageRepo.save(messageFromDb);
+            BeanUtils.copyProperties(message,id,"id");
+            return messageRepo.save(id);
     }
 
     @DeleteMapping("{id}")
